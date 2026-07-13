@@ -1288,20 +1288,20 @@
 ## Chance Cards (15 cards)
 
 1. 🌟 Double Points
-2. 💰 Bonus +10
-3. 😱 Lose 5 Points
-4. 🥷 Steal from Next Group
-5. 🏴‍☠️ Steal from Previous Group
-6. 🔄 Swap with Next Group
-7. 🎁 Everyone Gains 2
-8. ⚡ Others Lose 2
-9. ❄️ Freeze! Skip Next Turn
-10. 🎯 Extra Turn
-11. 🔀 Reverse Turn Order
-12. 🎲 Mystery Points
-13. 🤝 Help the Lowest Group
-14. ⚡ Speed Round _(special: speedRound)_
-15. ✌️ Double Trouble _(special: doubleTrouble)_
+2. 💰 Bonus +3
+3. 💎 Big Bonus +5
+4. 😱 Lose 3 Points
+5. 🥷 Steal from Next Group
+6. 🏴‍☠️ Steal from Previous Group
+7. 🔄 Swap with Next Group
+8. 🎁 Everyone Gains 2
+9. ⚡ Others Lose 2
+10. ❄️ Freeze! Skip Next Turn
+11. 🎯 Extra Turn
+12. 🔀 Reverse Turn Order
+13. 🎲 Mystery Points
+14. 🤝 Help the Lowest Group
+15. ⚡ Speed Round _(special: speedRound)_
 
 ---
 **Total questions: 1200**

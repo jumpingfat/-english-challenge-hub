@@ -135,12 +135,6 @@ const CHANCE_CARDS = [
     special: 'speedRound',
     apply() {},
     result() { return ''; }
-  },
-  {
-    icon: '✌️', label: 'Double Trouble',
-    special: 'doubleTrouble',
-    apply() {},
-    result() { return ''; }
   }
 ];
 

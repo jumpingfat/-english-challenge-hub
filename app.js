@@ -9,8 +9,7 @@ const state = {
   direction: 1,
   skipAdvanceOnce: false,
   currentCategory: null,
-  usedIndices: {},
-  doubleTrouble: null // { remaining: number, usedCategories: string[] }
+  usedIndices: {}
 };
 
 function escapeHtml(str) {
@@ -86,7 +85,6 @@ document.getElementById('start-game-btn').onclick = () => {
   state.direction = 1;
   state.skipAdvanceOnce = false;
   state.usedIndices = {};
-  state.doubleTrouble = null;
 
   document.getElementById('play-level-badge').textContent = state.difficulty;
   renderTurnIndicator();
@@ -150,18 +148,7 @@ function renderCategoryGrid() {
     btn.type = 'button';
     btn.className = `category-tile ${meta.cls}`;
     btn.innerHTML = `<span class="cat-icon">${meta.icon}</span><span>${meta.label}</span>`;
-    btn.onclick = () => {
-      if (state.doubleTrouble && state.doubleTrouble.usedCategories.includes(key)) {
-        showToast('🎯 Double Trouble — pick a different category!');
-        return;
-      }
-      AudioFX.select();
-      if (state.doubleTrouble) {
-        state.doubleTrouble.usedCategories.push(key);
-        state.doubleTrouble.remaining--;
-      }
-      showQuestion(key);
-    };
+    btn.onclick = () => { AudioFX.select(); showQuestion(key); };
     grid.appendChild(btn);
   });
 
@@ -247,25 +234,7 @@ function showQuestion(category) {
     }
     textEl.classList.add('reveal-pop');
     AudioFX.reveal();
-    updateQuestionActionButtons();
   }, 850);
-}
-
-function updateQuestionActionButtons() {
-  const nextTurnBtn = document.getElementById('question-next-turn-btn');
-  const backBtn = document.getElementById('back-to-categories-btn');
-  const label = document.getElementById('double-trouble-label');
-  if (state.doubleTrouble && state.doubleTrouble.remaining > 0) {
-    nextTurnBtn.classList.add('hidden');
-    backBtn.textContent = '↩ Pick Next Challenge';
-    label.textContent = `🎯 Double Trouble — ${state.doubleTrouble.remaining} more challenge${state.doubleTrouble.remaining > 1 ? 's' : ''} to go!`;
-    label.classList.remove('hidden');
-  } else {
-    nextTurnBtn.classList.remove('hidden');
-    backBtn.textContent = '↩ Back to Categories';
-    label.classList.add('hidden');
-    state.doubleTrouble = null;
-  }
 }
 
 document.getElementById('new-question-btn').onclick = () => showQuestion(state.currentCategory);
@@ -275,7 +244,6 @@ document.getElementById('question-next-turn-btn').onclick = () => nextTurn();
 /* ---------- TURN MANAGEMENT ---------- */
 function nextTurn() {
   AudioFX.swoosh();
-  state.doubleTrouble = null;
   if (state.skipAdvanceOnce) {
     state.skipAdvanceOnce = false;
     renderTurnIndicator();
@@ -362,14 +330,6 @@ function runChanceSpin() {
 function resolveChanceCard(card) {
   if (card.special === 'speedRound') {
     startSpeedRound();
-    return;
-  }
-  if (card.special === 'doubleTrouble') {
-    state.doubleTrouble = { remaining: 2, usedCategories: [] };
-    showToast('🎯 Double Trouble! Pick 2 different categories!');
-    renderScoreboard();
-    renderTurnIndicator();
-    showScreen('play');
     return;
   }
   card.apply(state);

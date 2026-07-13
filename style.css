@@ -283,17 +283,6 @@ html, body {
   padding: 10px 22px;
 }
 
-.double-trouble-label {
-  margin-top: 20px;
-  font-size: 1.1rem;
-  font-weight: 800;
-  color: #fff;
-  background: linear-gradient(135deg, #ef4444, #b91c1c);
-  border-radius: 999px;
-  padding: 10px 24px;
-  box-shadow: 0 6px 18px rgba(239,68,68,0.4);
-}
-
 .speed-round-prompt {
   margin-top: 26px;
   font-size: 1.1rem;
