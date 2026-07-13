@@ -346,12 +346,32 @@ document.getElementById('chance-back-btn').onclick = () => showScreen('play');
 document.getElementById('chance-next-turn-btn').onclick = () => nextTurn();
 
 /* ---------- SPEED ROUND ---------- */
-function startSpeedRound() {
+function speedRoundPool() {
   const pool = [];
   Object.keys(QUESTIONS).forEach(cat => {
-    (QUESTIONS[cat][state.difficulty] || []).forEach(q => { if (q.answer) pool.push(q); });
+    (QUESTIONS[cat][state.difficulty] || []).forEach(item => { if (item.answer) pool.push(item); });
   });
-  const q = pool.length ? pool[Math.floor(Math.random() * pool.length)] : null;
+  (SPEED_ROUND_RIDDLES[state.difficulty] || []).forEach(item => {
+    pool.push({ sub: 'Riddle', text: item.text, answer: item.answer });
+  });
+  return pool;
+}
+
+function startSpeedRound() {
+  const pool = speedRoundPool();
+  const key = 'speedRound_' + state.difficulty;
+  if (!state.usedIndices[key]) state.usedIndices[key] = new Set();
+  const used = state.usedIndices[key];
+  if (pool.length && used.size >= pool.length) used.clear();
+  let q = null;
+  if (pool.length) {
+    let idx;
+    do {
+      idx = Math.floor(Math.random() * pool.length);
+    } while (used.has(idx) && used.size < pool.length);
+    used.add(idx);
+    q = pool[idx];
+  }
 
   const subEl = document.getElementById('speed-round-sub');
   const textEl = document.getElementById('speed-round-text');

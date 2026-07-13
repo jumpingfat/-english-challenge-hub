@@ -1401,3 +1401,65 @@ const QUESTIONS = {
     ]
   }
 };
+
+// SPEED_ROUND_RIDDLES: extra answerable riddles used ONLY by the Speed Round
+// chance card, kept separate from QUESTIONS so the 50-per-level category
+// counts stay untouched. SPEED_ROUND_RIDDLES[level] = [{ text, answer }]
+const SPEED_ROUND_RIDDLES = {
+  A1: [
+    { text: 'It is white. It falls in winter. It is cold. What is it?', answer: 'Snow' },
+    { text: 'It has a long neck. It eats leaves from trees. What is it?', answer: 'A giraffe' },
+    { text: 'It is round and orange. You can eat it. What is it?', answer: 'An orange' },
+    { text: 'It has wheels. It goes fast. Police officers drive it. What is it?', answer: 'A police car' },
+    { text: 'It is in the sky. It is yellow. It gives us light. What is it?', answer: 'The sun' },
+    { text: 'It has wings. It is small. It makes honey. What is it?', answer: 'A bee' },
+    { text: 'It is cold. It is in your kitchen. It keeps food fresh. What is it?', answer: 'A fridge' },
+    { text: 'You wear it on your feet. It has laces. What is it?', answer: 'A shoe' },
+    { text: 'It is a baby dog. What is it?', answer: 'A puppy' },
+    { text: 'It has a long trunk. It sprays water. What is it?', answer: 'An elephant' },
+    { text: 'It is in the sky at night. It is round and bright. What is it?', answer: 'The moon' },
+    { text: 'You use it to write. It has ink. What is it?', answer: 'A pen' }
+  ],
+  A2: [
+    { text: 'The more you take, the more you leave behind. What is it?', answer: 'Footsteps' },
+    { text: 'I have keys but no locks. I have space but no room. What am I?', answer: 'A keyboard' },
+    { text: 'What has hands but cannot clap?', answer: 'A clock' },
+    { text: 'What has a face and two hands but no arms or legs?', answer: 'A clock' },
+    { text: 'What gets wetter the more it dries?', answer: 'A towel' },
+    { text: 'What has a neck but no head?', answer: 'A bottle' },
+    { text: 'I am tall when I am young, and short when I am old. What am I?', answer: 'A candle' },
+    { text: 'What can travel around the world while staying in the same corner?', answer: 'A stamp' },
+    { text: 'What has many teeth but cannot bite?', answer: 'A comb' },
+    { text: 'What has one eye but cannot see?', answer: 'A needle' },
+    { text: 'What kind of room has no doors or windows?', answer: 'A mushroom' },
+    { text: 'What goes up but never comes down?', answer: 'Your age' }
+  ],
+  B1: [
+    { text: 'What can you catch but not throw?', answer: 'A cold' },
+    { text: 'What has to be broken before you can use it?', answer: 'An egg' },
+    { text: 'What invention lets you look right through a wall?', answer: 'A window' },
+    { text: 'What is full of holes but still holds water?', answer: 'A sponge' },
+    { text: 'What runs but never walks, has a mouth but never talks?', answer: 'A river' },
+    { text: 'What has many rings but no fingers?', answer: 'A telephone' },
+    { text: 'What building has the most stories?', answer: 'A library' },
+    { text: 'What can you keep after giving it to someone?', answer: 'Your word' },
+    { text: 'What has a bed but never sleeps?', answer: 'A river' },
+    { text: 'What is always coming but never arrives?', answer: 'Tomorrow' },
+    { text: 'What has a head and a tail but no body?', answer: 'A coin' },
+    { text: 'What is easy to get into but hard to get out of?', answer: 'Trouble' }
+  ],
+  B2: [
+    { text: 'The more you take away from me, the bigger I become. What am I?', answer: 'A hole' },
+    { text: 'I speak without a mouth and hear without ears. I have no body, but I come alive with the wind. What am I?', answer: 'An echo' },
+    { text: 'What can fill a room but takes up no space?', answer: 'Light' },
+    { text: 'What has cities but no houses, forests but no trees, and rivers but no water?', answer: 'A map' },
+    { text: 'What word becomes shorter when you add two letters to it?', answer: "'Short' — adding 'er' makes 'shorter'" },
+    { text: 'What begins with T, ends with T, and has T in it?', answer: 'A teapot' },
+    { text: 'What can you break without touching it?', answer: 'A promise' },
+    { text: 'What has a thumb and four fingers but is not alive?', answer: 'A glove' },
+    { text: 'What question can you never answer honestly with "yes"?', answer: '"Are you asleep?"' },
+    { text: 'What is so fragile that saying its name breaks it?', answer: 'Silence' },
+    { text: 'What has many keys but cannot open a single lock?', answer: 'A piano' },
+    { text: 'What goes through cities and fields but never moves?', answer: 'A road' }
+  ]
+};
