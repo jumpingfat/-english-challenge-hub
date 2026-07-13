@@ -1285,7 +1285,7 @@
 49. **[Make an Advertisement]** Make an ad for a product that guarantees the perfect comeback, three days too late.
 50. **[Fake News]** Make up a fake news headline about an office prank that accidentally became company policy.
 
-## Chance Cards (13 cards)
+## Chance Cards (15 cards)
 
 1. 🌟 Double Points
 2. 💰 Bonus +10
@@ -1300,6 +1300,8 @@
 11. 🔀 Reverse Turn Order
 12. 🎲 Mystery Points
 13. 🤝 Help the Lowest Group
+14. ⚡ Speed Round _(special: speedRound)_
+15. ✌️ Double Trouble _(special: doubleTrouble)_
 
 ---
 **Total questions: 1200**

@@ -124,6 +124,18 @@ const CHANCE_CARDS = [
       this._idx = idx;
     },
     result(state) { return `${state.groups[this._idx].name} (in last place) receives +3 points! 🤝`; }
+  },
+  {
+    icon: '⚡', label: 'Speed Round',
+    special: 'speedRound',
+    apply() {},
+    result() { return ''; }
+  },
+  {
+    icon: '✌️', label: 'Double Trouble',
+    special: 'doubleTrouble',
+    apply() {},
+    result() { return ''; }
   }
 ];
 

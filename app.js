@@ -9,7 +9,8 @@ const state = {
   direction: 1,
   skipAdvanceOnce: false,
   currentCategory: null,
-  usedIndices: {}
+  usedIndices: {},
+  doubleTrouble: null // { remaining: number, usedCategories: string[] }
 };
 
 function escapeHtml(str) {
@@ -85,6 +86,7 @@ document.getElementById('start-game-btn').onclick = () => {
   state.direction = 1;
   state.skipAdvanceOnce = false;
   state.usedIndices = {};
+  state.doubleTrouble = null;
 
   document.getElementById('play-level-badge').textContent = state.difficulty;
   renderTurnIndicator();
@@ -148,7 +150,18 @@ function renderCategoryGrid() {
     btn.type = 'button';
     btn.className = `category-tile ${meta.cls}`;
     btn.innerHTML = `<span class="cat-icon">${meta.icon}</span><span>${meta.label}</span>`;
-    btn.onclick = () => { AudioFX.select(); showQuestion(key); };
+    btn.onclick = () => {
+      if (state.doubleTrouble && state.doubleTrouble.usedCategories.includes(key)) {
+        showToast('🎯 Double Trouble — pick a different category!');
+        return;
+      }
+      AudioFX.select();
+      if (state.doubleTrouble) {
+        state.doubleTrouble.usedCategories.push(key);
+        state.doubleTrouble.remaining--;
+      }
+      showQuestion(key);
+    };
     grid.appendChild(btn);
   });
 
@@ -234,7 +247,25 @@ function showQuestion(category) {
     }
     textEl.classList.add('reveal-pop');
     AudioFX.reveal();
+    updateQuestionActionButtons();
   }, 850);
+}
+
+function updateQuestionActionButtons() {
+  const nextTurnBtn = document.getElementById('question-next-turn-btn');
+  const backBtn = document.getElementById('back-to-categories-btn');
+  const label = document.getElementById('double-trouble-label');
+  if (state.doubleTrouble && state.doubleTrouble.remaining > 0) {
+    nextTurnBtn.classList.add('hidden');
+    backBtn.textContent = '↩ Pick Next Challenge';
+    label.textContent = `🎯 Double Trouble — ${state.doubleTrouble.remaining} more challenge${state.doubleTrouble.remaining > 1 ? 's' : ''} to go!`;
+    label.classList.remove('hidden');
+  } else {
+    nextTurnBtn.classList.remove('hidden');
+    backBtn.textContent = '↩ Back to Categories';
+    label.classList.add('hidden');
+    state.doubleTrouble = null;
+  }
 }
 
 document.getElementById('new-question-btn').onclick = () => showQuestion(state.currentCategory);
@@ -244,6 +275,7 @@ document.getElementById('question-next-turn-btn').onclick = () => nextTurn();
 /* ---------- TURN MANAGEMENT ---------- */
 function nextTurn() {
   AudioFX.swoosh();
+  state.doubleTrouble = null;
   if (state.skipAdvanceOnce) {
     state.skipAdvanceOnce = false;
     renderTurnIndicator();
@@ -328,6 +360,18 @@ function runChanceSpin() {
 }
 
 function resolveChanceCard(card) {
+  if (card.special === 'speedRound') {
+    startSpeedRound();
+    return;
+  }
+  if (card.special === 'doubleTrouble') {
+    state.doubleTrouble = { remaining: 2, usedCategories: [] };
+    showToast('🎯 Double Trouble! Pick 2 different categories!');
+    renderScoreboard();
+    renderTurnIndicator();
+    showScreen('play');
+    return;
+  }
   card.apply(state);
   const text = card.result(state);
   document.getElementById('chance-result-icon').textContent = card.icon;
@@ -339,3 +383,61 @@ function resolveChanceCard(card) {
 
 document.getElementById('chance-back-btn').onclick = () => showScreen('play');
 document.getElementById('chance-next-turn-btn').onclick = () => nextTurn();
+
+/* ---------- SPEED ROUND ---------- */
+function startSpeedRound() {
+  const pool = [];
+  Object.keys(QUESTIONS).forEach(cat => {
+    (QUESTIONS[cat][state.difficulty] || []).forEach(q => { if (q.answer) pool.push(q); });
+  });
+  const q = pool.length ? pool[Math.floor(Math.random() * pool.length)] : null;
+
+  const subEl = document.getElementById('speed-round-sub');
+  const textEl = document.getElementById('speed-round-text');
+  const link = document.getElementById('speed-answer-link');
+  const answerText = document.getElementById('speed-answer-text');
+  answerText.classList.add('hidden');
+  answerText.textContent = '';
+
+  if (q) {
+    subEl.textContent = q.sub || '';
+    textEl.textContent = q.text;
+    link.classList.remove('hidden');
+    link.onclick = () => {
+      answerText.textContent = q.answer;
+      answerText.classList.remove('hidden');
+      link.classList.add('hidden');
+    };
+  } else {
+    subEl.textContent = '';
+    textEl.textContent = 'No answerable questions available for this level.';
+    link.classList.add('hidden');
+  }
+
+  renderSpeedRoundGroups();
+  renderScoreboard();
+  renderTurnIndicator();
+  showScreen('speed-round');
+}
+
+function renderSpeedRoundGroups() {
+  const container = document.getElementById('speed-round-groups');
+  container.innerHTML = state.groups.map((g, i) => `
+    <button type="button" class="speed-round-btn" data-idx="${i}">🏆 ${escapeHtml(g.name)} wins!</button>
+  `).join('');
+}
+
+document.body.addEventListener('click', (e) => {
+  const btn = e.target.closest('.speed-round-btn');
+  if (!btn) return;
+  const idx = parseInt(btn.dataset.idx, 10);
+  const g = state.groups[idx];
+  g.score = clampScore(g.score + 5);
+  AudioFX.scoreUp();
+  AudioFX.fanfare();
+  showToast(`${g.name} wins the Speed Round! +5 points 🏆`);
+  renderScoreboard();
+});
+
+document.getElementById('speed-back-btn').onclick = () => showScreen('play');
+document.getElementById('speed-next-turn-btn').onclick = () => nextTurn();

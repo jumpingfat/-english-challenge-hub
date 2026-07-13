@@ -69,6 +69,7 @@
   <div class="question-text" id="question-text"></div>
   <a href="javascript:void(0)" class="answer-link hidden" id="answer-link">🔎 Reveal Answer (teacher only!)</a>
   <div class="answer-text hidden" id="answer-text"></div>
+  <div class="double-trouble-label hidden" id="double-trouble-label"></div>
 
   <div class="question-actions">
     <button type="button" class="btn-secondary" id="new-question-btn">🔄 New Question</button>
@@ -98,6 +99,24 @@
     <button type="button" class="btn-next-turn" id="chance-next-turn-btn">Next Turn →</button>
   </div>
   <div class="scoreboard" id="scoreboard-c"></div>
+</div>
+
+<!-- SPEED ROUND SCREEN -->
+<div id="screen-speed-round" class="screen hidden chance-bg">
+  <div class="chance-spin-title">⚡ SPEED ROUND! ⚡</div>
+  <div class="question-sub" id="speed-round-sub"></div>
+  <div class="question-text" id="speed-round-text"></div>
+  <a href="javascript:void(0)" class="answer-link hidden" id="speed-answer-link">🔎 Reveal Answer (teacher only!)</a>
+  <div class="answer-text hidden" id="speed-answer-text"></div>
+  <div class="speed-round-prompt">🏃 First group to answer! Tap the winning group below:</div>
+  <div class="speed-round-groups" id="speed-round-groups"></div>
+
+  <div class="question-actions">
+    <button type="button" class="btn-secondary" id="speed-back-btn">↩ Back to Categories</button>
+    <button type="button" class="btn-next-turn" id="speed-next-turn-btn">Next Turn →</button>
+  </div>
+
+  <div class="scoreboard" id="scoreboard-sr"></div>
 </div>
 
 <div id="toast" class="toast hidden"></div>
