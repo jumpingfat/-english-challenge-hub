@@ -91,9 +91,18 @@ document.getElementById('start-game-btn').onclick = () => {
   renderScoreboard();
   renderChanceButton();
   showScreen('play');
+  BackgroundMusic.start();
 };
 
-document.getElementById('settings-btn').onclick = () => showScreen('setup');
+document.getElementById('settings-btn').onclick = () => {
+  BackgroundMusic.stop();
+  showScreen('setup');
+};
+
+document.getElementById('music-toggle-btn').onclick = () => {
+  const muted = BackgroundMusic.toggleMute();
+  document.getElementById('music-toggle-btn').textContent = muted ? '🔇' : '🎵';
+};
 
 /* ---------- SCOREBOARD (shared across screens) ---------- */
 function scoreboardHTML() {
@@ -193,9 +202,14 @@ function showQuestion(category) {
 
   const textEl = document.getElementById('question-text');
   const subEl = document.getElementById('question-sub');
+  const answerLink = document.getElementById('answer-link');
+  const answerText = document.getElementById('answer-text');
   textEl.classList.remove('reveal-pop');
   subEl.textContent = '';
   textEl.textContent = '';
+  answerLink.classList.add('hidden');
+  answerText.classList.add('hidden');
+  answerText.textContent = '';
 
   const screen = document.getElementById('screen-question');
   screen.classList.add('revealing');
@@ -209,6 +223,14 @@ function showQuestion(category) {
     } else {
       subEl.textContent = q.sub || '';
       textEl.textContent = q.text;
+      if (q.answer) {
+        answerLink.classList.remove('hidden');
+        answerLink.onclick = () => {
+          answerText.textContent = q.answer;
+          answerText.classList.remove('hidden');
+          answerLink.classList.add('hidden');
+        };
+      }
     }
     textEl.classList.add('reveal-pop');
     AudioFX.reveal();

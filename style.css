@@ -263,6 +263,26 @@ html, body {
   display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; padding: 0 12px;
 }
 
+.answer-link {
+  display: inline-block;
+  margin-top: 22px;
+  color: #fbbf24;
+  font-weight: 700;
+  font-size: 1rem;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.answer-text {
+  margin-top: 12px;
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #fbbf24;
+  background: rgba(251,191,36,0.12);
+  border: 2px solid #fbbf24;
+  border-radius: 14px;
+  padding: 10px 22px;
+}
+
 .question-spinner {
   display: none;
   font-size: 5rem;

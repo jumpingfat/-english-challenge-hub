@@ -41,7 +41,10 @@
   <div class="top-bar">
     <div class="level-badge" id="play-level-badge">A1</div>
     <div class="turn-indicator" id="turn-indicator">Group 1's Turn</div>
-    <button type="button" class="icon-btn" id="settings-btn" title="Back to Setup">⚙</button>
+    <div style="display:flex; gap:8px;">
+      <button type="button" class="icon-btn" id="music-toggle-btn" title="Mute/Unmute Music">🎵</button>
+      <button type="button" class="icon-btn" id="settings-btn" title="Back to Setup">⚙</button>
+    </div>
   </div>
 
   <div class="category-grid" id="category-grid"></div>
@@ -64,6 +67,8 @@
   <div class="question-spinner" id="question-spinner"></div>
   <div class="question-sub" id="question-sub"></div>
   <div class="question-text" id="question-text"></div>
+  <a href="javascript:void(0)" class="answer-link hidden" id="answer-link">🔎 Reveal Answer (teacher only!)</a>
+  <div class="answer-text hidden" id="answer-text"></div>
 
   <div class="question-actions">
     <button type="button" class="btn-secondary" id="new-question-btn">🔄 New Question</button>
