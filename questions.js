@@ -34,14 +34,19 @@ const CHANCE_CARDS = [
     result(state) { return `${state.groups[state.currentIndex].name} doubles their score! 🌟`; }
   },
   {
-    icon: '💰', label: 'Bonus +10',
-    apply(state) { const g = state.groups[state.currentIndex]; g.score = clampScore(g.score + 10); },
-    result(state) { return `${state.groups[state.currentIndex].name} gets a bonus of +10 points! 💰`; }
+    icon: '💰', label: 'Bonus +3',
+    apply(state) { const g = state.groups[state.currentIndex]; g.score = clampScore(g.score + 3); },
+    result(state) { return `${state.groups[state.currentIndex].name} gets a bonus of +3 points! 💰`; }
   },
   {
-    icon: '😱', label: 'Lose 5 Points',
-    apply(state) { const g = state.groups[state.currentIndex]; g.score = clampScore(g.score - 5); },
-    result(state) { return `Oh no! ${state.groups[state.currentIndex].name} loses 5 points! 😱`; }
+    icon: '💎', label: 'Big Bonus +5',
+    apply(state) { const g = state.groups[state.currentIndex]; g.score = clampScore(g.score + 5); },
+    result(state) { return `${state.groups[state.currentIndex].name} gets a BIG bonus of +5 points! 💎`; }
+  },
+  {
+    icon: '😱', label: 'Lose 3 Points',
+    apply(state) { const g = state.groups[state.currentIndex]; g.score = clampScore(g.score - 3); },
+    result(state) { return `Oh no! ${state.groups[state.currentIndex].name} loses 3 points! 😱`; }
   },
   {
     icon: '🥷', label: 'Steal from Next Group',
@@ -49,7 +54,7 @@ const CHANCE_CARDS = [
       const from = otherGroupIndex(state, 1);
       const cur = state.groups[state.currentIndex];
       const other = state.groups[from];
-      const amount = 5;
+      const amount = 3;
       other.score = clampScore(other.score - amount);
       cur.score = clampScore(cur.score + amount);
       this._from = from; this._amount = amount;
@@ -62,7 +67,7 @@ const CHANCE_CARDS = [
       const from = otherGroupIndex(state, -1);
       const cur = state.groups[state.currentIndex];
       const other = state.groups[from];
-      const amount = 5;
+      const amount = 3;
       other.score = clampScore(other.score - amount);
       cur.score = clampScore(cur.score + amount);
       this._from = from; this._amount = amount;
