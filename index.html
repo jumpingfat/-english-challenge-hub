@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>English Challenge Hub</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- SETUP SCREEN -->
+<div id="screen-setup" class="screen">
+  <div class="setup-card">
+    <h1>English Challenge Hub</h1>
+    <p class="setup-sub">Set up your groups and pick a difficulty to start the game.</p>
+
+    <label class="setup-label">Number of Groups</label>
+    <div class="stepper">
+      <button type="button" id="group-count-minus" class="stepper-btn">−</button>
+      <div class="stepper-value" id="group-count-value">4</div>
+      <button type="button" id="group-count-plus" class="stepper-btn">+</button>
+    </div>
+
+    <label class="setup-label">Group Names</label>
+    <div id="group-name-inputs" class="group-name-grid"></div>
+
+    <label class="setup-label">Difficulty (CEFR Level)</label>
+    <div class="difficulty-grid" id="difficulty-grid">
+      <button type="button" class="difficulty-btn" data-level="A1">A1<span>Beginner</span></button>
+      <button type="button" class="difficulty-btn" data-level="A2">A2<span>Elementary</span></button>
+      <button type="button" class="difficulty-btn" data-level="B1">B1<span>Intermediate</span></button>
+      <button type="button" class="difficulty-btn" data-level="B2">B2<span>Upper-Intermediate</span></button>
+    </div>
+
+    <button type="button" class="btn-start" id="start-game-btn">Start Game ▶</button>
+  </div>
+</div>
+
+<!-- PLAY SCREEN (category selection) -->
+<div id="screen-play" class="screen hidden">
+  <div class="top-bar">
+    <div class="level-badge" id="play-level-badge">A1</div>
+    <div class="turn-indicator" id="turn-indicator">Group 1's Turn</div>
+    <button type="button" class="icon-btn" id="settings-btn" title="Back to Setup">⚙</button>
+  </div>
+
+  <div class="category-grid" id="category-grid"></div>
+  <div class="chance-row" id="chance-row"></div>
+  <div class="chance-hint">🎲 Each group can draw a Chance Card up to 3 times per game.</div>
+
+  <div class="bottom-bar">
+    <button type="button" class="btn-next-turn" id="next-turn-btn">Next Turn →</button>
+  </div>
+
+  <div class="scoreboard" id="scoreboard"></div>
+</div>
+
+<!-- QUESTION SCREEN -->
+<div id="screen-question" class="screen hidden">
+  <div class="question-top">
+    <div class="question-cat" id="question-cat"></div>
+    <div class="question-level" id="question-level"></div>
+  </div>
+  <div class="question-spinner" id="question-spinner"></div>
+  <div class="question-sub" id="question-sub"></div>
+  <div class="question-text" id="question-text"></div>
+
+  <div class="question-actions">
+    <button type="button" class="btn-secondary" id="new-question-btn">🔄 New Question</button>
+    <button type="button" class="btn-secondary" id="back-to-categories-btn">↩ Back to Categories</button>
+    <button type="button" class="btn-next-turn" id="question-next-turn-btn">Next Turn →</button>
+  </div>
+
+  <div class="scoreboard" id="scoreboard-q"></div>
+</div>
+
+<!-- CHANCE CARD SPIN SCREEN -->
+<div id="screen-chance-spin" class="screen hidden chance-bg">
+  <div class="chance-spin-title">🎲 CHANCE CARD 🎲</div>
+  <div class="chance-reel-window">
+    <div class="chance-reel" id="chance-reel"></div>
+  </div>
+</div>
+
+<!-- CHANCE CARD RESULT SCREEN -->
+<div id="screen-chance-result" class="screen hidden chance-bg">
+  <div class="chance-result-card" id="chance-result-card">
+    <div class="chance-result-icon" id="chance-result-icon"></div>
+    <div class="chance-result-text" id="chance-result-text"></div>
+  </div>
+  <div class="question-actions">
+    <button type="button" class="btn-secondary" id="chance-back-btn">↩ Back to Categories</button>
+    <button type="button" class="btn-next-turn" id="chance-next-turn-btn">Next Turn →</button>
+  </div>
+  <div class="scoreboard" id="scoreboard-c"></div>
+</div>
+
+<div id="toast" class="toast hidden"></div>
+
+<script src="questions.js"></script>
+<script src="audio.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
