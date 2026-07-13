@@ -121,6 +121,7 @@ function renderScoreboard() {
   document.getElementById('scoreboard').innerHTML = html;
   document.getElementById('scoreboard-q').innerHTML = html;
   document.getElementById('scoreboard-c').innerHTML = html;
+  document.getElementById('scoreboard-sr').innerHTML = html;
 }
 
 document.body.addEventListener('click', (e) => {
@@ -392,10 +393,10 @@ document.body.addEventListener('click', (e) => {
   if (!btn) return;
   const idx = parseInt(btn.dataset.idx, 10);
   const g = state.groups[idx];
-  g.score = clampScore(g.score + 5);
+  g.score = clampScore(g.score + 3);
   AudioFX.scoreUp();
   AudioFX.fanfare();
-  showToast(`${g.name} wins the Speed Round! +5 points 🏆`);
+  showToast(`${g.name} wins the Speed Round! +3 points 🏆`);
   renderScoreboard();
 });
 
