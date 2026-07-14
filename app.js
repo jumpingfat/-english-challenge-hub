@@ -171,13 +171,25 @@ function scoreboardHTML() {
   `).join('');
 }
 
+const SCOREBOARD_IDS = ['scoreboard', 'scoreboard-q', 'scoreboard-c', 'scoreboard-sr'];
+
 function renderScoreboard() {
   const html = scoreboardHTML();
-  document.getElementById('scoreboard').innerHTML = html;
-  document.getElementById('scoreboard-q').innerHTML = html;
-  document.getElementById('scoreboard-c').innerHTML = html;
-  document.getElementById('scoreboard-sr').innerHTML = html;
+  SCOREBOARD_IDS.forEach(id => {
+    document.getElementById(id).innerHTML = html;
+  });
+  requestAnimationFrame(adjustScreenPaddingForScoreboards);
 }
+
+function adjustScreenPaddingForScoreboards() {
+  SCOREBOARD_IDS.forEach(id => {
+    const el = document.getElementById(id);
+    const screen = el.closest('.screen');
+    if (screen) screen.style.paddingBottom = (el.offsetHeight + 24) + 'px';
+  });
+}
+
+window.addEventListener('resize', () => requestAnimationFrame(adjustScreenPaddingForScoreboards));
 
 document.body.addEventListener('click', (e) => {
   const btn = e.target.closest('.score-btn');

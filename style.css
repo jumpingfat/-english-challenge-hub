@@ -194,7 +194,7 @@ html, body {
 }
 
 .bottom-bar {
-  position: fixed; bottom: 100px; left: 0; right: 0;
+  margin-top: 24px;
   display: flex; justify-content: center;
 }
 .btn-next-turn {
@@ -453,6 +453,15 @@ html, body {
 
 @media (max-width: 600px) {
   .category-grid { grid-template-columns: repeat(2, 1fr); }
+  .scoreboard {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+  .score-chip { min-width: 0; width: 100%; padding: 8px 6px; gap: 4px; }
+  .score-chip .score-name { font-size: 0.78rem; }
+  .score-chip button { width: 22px; height: 22px; font-size: 0.85rem; flex-shrink: 0; }
+  .score-chip .score-value { min-width: 20px; font-size: 1rem; }
 }
 
 @media (max-width: 480px) {
