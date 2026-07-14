@@ -70,6 +70,16 @@
   <a href="javascript:void(0)" class="answer-link hidden" id="answer-link">🔎 Reveal Answer (teacher only!)</a>
   <div class="answer-text hidden" id="answer-text"></div>
 
+  <div class="timer-bar">
+    <div class="timer-duration-group" id="timer-duration-group">
+      <button type="button" class="timer-duration-btn" data-secs="5">5s</button>
+      <button type="button" class="timer-duration-btn active" data-secs="10">10s</button>
+      <button type="button" class="timer-duration-btn" data-secs="15">15s</button>
+    </div>
+    <button type="button" class="timer-start-btn" id="timer-start-btn">⏱ Start Timer</button>
+    <div class="timer-display hidden" id="timer-display">10</div>
+  </div>
+
   <div class="question-actions">
     <button type="button" class="btn-secondary" id="new-question-btn">🔄 New Question</button>
     <button type="button" class="btn-secondary" id="back-to-categories-btn">↩ Back to Categories</button>
@@ -102,12 +112,12 @@
 
 <!-- SPEED ROUND SCREEN -->
 <div id="screen-speed-round" class="screen hidden chance-bg">
-  <div class="chance-spin-title">⚡ SPEED ROUND! ⚡</div>
+  <div class="chance-spin-title" id="speed-round-title">⚡ SPEED ROUND! ⚡</div>
   <div class="question-sub" id="speed-round-sub"></div>
   <div class="question-text" id="speed-round-text"></div>
   <a href="javascript:void(0)" class="answer-link hidden" id="speed-answer-link">🔎 Reveal Answer (teacher only!)</a>
   <div class="answer-text hidden" id="speed-answer-text"></div>
-  <div class="speed-round-prompt">🏃 First group to answer! Tap the winning group below:</div>
+  <div class="speed-round-prompt" id="speed-round-prompt">🏃 First group to answer! Tap the winning group below:</div>
   <div class="speed-round-groups" id="speed-round-groups"></div>
 
   <div class="question-actions">

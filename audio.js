@@ -33,7 +33,11 @@ const AudioFX = (() => {
     },
     swoosh() { tone({ freq: 300, freqEnd: 900, duration: 0.25, type: 'sawtooth', volume: 0.1 }); },
     scoreUp() { tone({ freq: 660, freqEnd: 880, duration: 0.1, type: 'sine', volume: 0.18 }); },
-    scoreDown() { tone({ freq: 400, freqEnd: 220, duration: 0.15, type: 'sine', volume: 0.18 }); }
+    scoreDown() { tone({ freq: 400, freqEnd: 220, duration: 0.15, type: 'sine', volume: 0.18 }); },
+    buzzer() {
+      tone({ freq: 220, freqEnd: 110, duration: 0.35, type: 'sawtooth', volume: 0.22 });
+      tone({ freq: 220, freqEnd: 110, duration: 0.35, type: 'sawtooth', volume: 0.18, delay: 0.15 });
+    }
   };
 })();
 

@@ -9,7 +9,10 @@ const state = {
   direction: 1,
   skipAdvanceOnce: false,
   currentCategory: null,
-  usedIndices: {}
+  usedIndices: {},
+  timerDuration: 10,
+  timerInterval: null,
+  timerRemaining: 0
 };
 
 function escapeHtml(str) {
@@ -17,9 +20,61 @@ function escapeHtml(str) {
 }
 
 function showScreen(name) {
+  stopQuestionTimer();
   document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
   document.getElementById(`screen-${name}`).classList.remove('hidden');
 }
+
+/* ---------- QUESTION TIMER ---------- */
+function stopQuestionTimer() {
+  clearInterval(state.timerInterval);
+  state.timerInterval = null;
+  const startBtn = document.getElementById('timer-start-btn');
+  const display = document.getElementById('timer-display');
+  if (startBtn) { startBtn.textContent = '⏱ Start Timer'; startBtn.classList.remove('running'); }
+  if (display) { display.classList.add('hidden'); display.classList.remove('urgent'); }
+}
+
+function startQuestionTimer() {
+  const display = document.getElementById('timer-display');
+  const startBtn = document.getElementById('timer-start-btn');
+  state.timerRemaining = state.timerDuration;
+  display.textContent = state.timerRemaining;
+  display.classList.remove('hidden');
+  display.classList.toggle('urgent', state.timerRemaining <= 3);
+  startBtn.textContent = '⏹ Stop';
+  startBtn.classList.add('running');
+  state.timerInterval = setInterval(() => {
+    state.timerRemaining--;
+    if (state.timerRemaining <= 0) {
+      display.textContent = '0';
+      clearInterval(state.timerInterval);
+      state.timerInterval = null;
+      startBtn.textContent = '⏱ Start Timer';
+      startBtn.classList.remove('running');
+      AudioFX.buzzer();
+      return;
+    }
+    display.textContent = state.timerRemaining;
+    display.classList.toggle('urgent', state.timerRemaining <= 3);
+    AudioFX.tick();
+  }, 1000);
+}
+
+document.getElementById('timer-duration-group').addEventListener('click', (e) => {
+  const btn = e.target.closest('.timer-duration-btn');
+  if (!btn || state.timerInterval) return;
+  document.querySelectorAll('.timer-duration-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  state.timerDuration = parseInt(btn.dataset.secs, 10);
+  const display = document.getElementById('timer-display');
+  if (!display.classList.contains('hidden')) display.textContent = state.timerDuration;
+});
+
+document.getElementById('timer-start-btn').onclick = () => {
+  if (state.timerInterval) stopQuestionTimer();
+  else startQuestionTimer();
+};
 
 let toastTimer = null;
 function showToast(msg) {
@@ -330,7 +385,11 @@ function runChanceSpin() {
 
 function resolveChanceCard(card) {
   if (card.special === 'speedRound') {
-    startSpeedRound();
+    startBuzzerRound('speed');
+    return;
+  }
+  if (card.special === 'quickCategories') {
+    startBuzzerRound('quickCategories');
     return;
   }
   card.apply(state);
@@ -345,7 +404,7 @@ function resolveChanceCard(card) {
 document.getElementById('chance-back-btn').onclick = () => showScreen('play');
 document.getElementById('chance-next-turn-btn').onclick = () => nextTurn();
 
-/* ---------- SPEED ROUND ---------- */
+/* ---------- BUZZER ROUNDS (Speed Round + Quick Categories) ---------- */
 function speedRoundPool() {
   const pool = [];
   Object.keys(QUESTIONS).forEach(cat => {
@@ -357,9 +416,34 @@ function speedRoundPool() {
   return pool;
 }
 
-function startSpeedRound() {
-  const pool = speedRoundPool();
-  const key = 'speedRound_' + state.difficulty;
+function quickCategoriesPool() {
+  return (QUICK_CATEGORIES[state.difficulty] || []).map(item => ({ sub: 'Quick Categories', text: item.text }));
+}
+
+const BUZZER_MODES = {
+  speed: {
+    key: 'speedRound_',
+    title: '⚡ SPEED ROUND! ⚡',
+    prompt: '🏃 First group to answer! Tap the winning group below:',
+    emptyText: 'No answerable questions available for this level.',
+    winLabel: 'Speed Round',
+    pool: speedRoundPool
+  },
+  quickCategories: {
+    key: 'quickCategories_',
+    title: '🔤 QUICK CATEGORIES! 🔤',
+    prompt: '🗣️ First group to name 3! Tap the winning group below:',
+    emptyText: 'No categories available for this level.',
+    winLabel: 'Quick Categories',
+    pool: quickCategoriesPool
+  }
+};
+
+function startBuzzerRound(mode) {
+  const cfg = BUZZER_MODES[mode];
+  state.buzzerMode = mode;
+  const pool = cfg.pool();
+  const key = cfg.key + state.difficulty;
   if (!state.usedIndices[key]) state.usedIndices[key] = new Set();
   const used = state.usedIndices[key];
   if (pool.length && used.size >= pool.length) used.clear();
@@ -373,6 +457,9 @@ function startSpeedRound() {
     q = pool[idx];
   }
 
+  document.getElementById('speed-round-title').textContent = cfg.title;
+  document.getElementById('speed-round-prompt').textContent = cfg.prompt;
+
   const subEl = document.getElementById('speed-round-sub');
   const textEl = document.getElementById('speed-round-text');
   const link = document.getElementById('speed-answer-link');
@@ -383,15 +470,19 @@ function startSpeedRound() {
   if (q) {
     subEl.textContent = q.sub || '';
     textEl.textContent = q.text;
-    link.classList.remove('hidden');
-    link.onclick = () => {
-      answerText.textContent = q.answer;
-      answerText.classList.remove('hidden');
+    if (q.answer) {
+      link.classList.remove('hidden');
+      link.onclick = () => {
+        answerText.textContent = q.answer;
+        answerText.classList.remove('hidden');
+        link.classList.add('hidden');
+      };
+    } else {
       link.classList.add('hidden');
-    };
+    }
   } else {
     subEl.textContent = '';
-    textEl.textContent = 'No answerable questions available for this level.';
+    textEl.textContent = cfg.emptyText;
     link.classList.add('hidden');
   }
 
@@ -416,7 +507,8 @@ document.body.addEventListener('click', (e) => {
   g.score = clampScore(g.score + 3);
   AudioFX.scoreUp();
   AudioFX.fanfare();
-  showToast(`${g.name} wins the Speed Round! +3 points 🏆`);
+  const winLabel = (BUZZER_MODES[state.buzzerMode] || BUZZER_MODES.speed).winLabel;
+  showToast(`${g.name} wins the ${winLabel}! +3 points 🏆`);
   renderScoreboard();
 });
 

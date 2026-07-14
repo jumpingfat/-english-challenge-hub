@@ -4,7 +4,7 @@
   --vocabulary: #10b981;
   --pronunciation: #f59e0b;
   --storytelling: #ec4899;
-  --creativity: #14b8a6;
+  --idioms: #14b8a6;
   --chance: #ef4444;
   --bg: #0f1220;
   --panel: #1b2036;
@@ -182,7 +182,7 @@ html, body {
 .category-tile.cat-vocabulary { background: linear-gradient(135deg, var(--vocabulary), #047857); }
 .category-tile.cat-pronunciation { background: linear-gradient(135deg, var(--pronunciation), #b45309); }
 .category-tile.cat-storytelling { background: linear-gradient(135deg, var(--storytelling), #9d174d); }
-.category-tile.cat-creativity { background: linear-gradient(135deg, var(--creativity), #0f766e); }
+.category-tile.cat-idioms { background: linear-gradient(135deg, var(--idioms), #0f766e); }
 .category-tile.cat-chance {
   background: linear-gradient(135deg, var(--chance), #7f1d1d);
   animation: chance-glow 2s infinite;
@@ -281,6 +281,65 @@ html, body {
   border: 2px solid #fbbf24;
   border-radius: 14px;
   padding: 10px 22px;
+}
+
+/* ---------- QUESTION TIMER ---------- */
+.timer-bar {
+  position: fixed; bottom: 140px; left: 0; right: 0;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 0 12px;
+}
+.timer-duration-group {
+  display: flex;
+  gap: 6px;
+  background: var(--panel-2);
+  border-radius: 12px;
+  padding: 4px;
+}
+.timer-duration-btn {
+  padding: 8px 14px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 9px;
+  background: transparent;
+  color: var(--text);
+  opacity: 0.6;
+  cursor: pointer;
+}
+.timer-duration-btn.active {
+  background: #fbbf24;
+  color: #1a1200;
+  opacity: 1;
+}
+.timer-start-btn {
+  padding: 10px 20px;
+  font-size: 1rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 12px;
+  background: #10b981;
+  color: #06251b;
+  cursor: pointer;
+}
+.timer-start-btn:active { transform: scale(0.96); }
+.timer-start-btn.running { background: #ef4444; color: #2a0808; }
+.timer-display {
+  font-size: 2.2rem;
+  font-weight: 800;
+  min-width: 64px;
+  text-align: center;
+  color: #fbbf24;
+  font-variant-numeric: tabular-nums;
+}
+.timer-display.urgent { color: #ef4444; animation: timer-pulse 0.5s infinite; }
+@keyframes timer-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.15); }
 }
 
 .speed-round-prompt {
