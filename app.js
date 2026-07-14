@@ -179,17 +179,23 @@ function renderScoreboard() {
     document.getElementById(id).innerHTML = html;
   });
   requestAnimationFrame(adjustScreenPaddingForScoreboards);
+  // Re-measure after layout fully settles (fonts, wrapping) — a single rAF
+  // isn't always enough on real devices.
+  setTimeout(adjustScreenPaddingForScoreboards, 250);
 }
 
 function adjustScreenPaddingForScoreboards() {
   SCOREBOARD_IDS.forEach(id => {
     const el = document.getElementById(id);
     const screen = el.closest('.screen');
-    if (screen) screen.style.paddingBottom = (el.offsetHeight + 24) + 'px';
+    if (!screen) return;
+    const isFloating = getComputedStyle(el).position === 'fixed';
+    screen.style.paddingBottom = isFloating ? (el.offsetHeight + 48) + 'px' : '20px';
   });
 }
 
 window.addEventListener('resize', () => requestAnimationFrame(adjustScreenPaddingForScoreboards));
+window.addEventListener('load', () => requestAnimationFrame(adjustScreenPaddingForScoreboards));
 
 document.body.addEventListener('click', (e) => {
   const btn = e.target.closest('.score-btn');

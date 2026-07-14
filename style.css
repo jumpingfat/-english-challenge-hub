@@ -454,9 +454,13 @@ html, body {
 @media (max-width: 600px) {
   .category-grid { grid-template-columns: repeat(2, 1fr); }
   .scoreboard {
+    position: static;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 8px;
+    margin-top: 24px;
+    border-top: none;
+    border-radius: 16px;
   }
   .score-chip { min-width: 0; width: 100%; padding: 8px 6px; gap: 4px; }
   .score-chip .score-name { font-size: 0.78rem; }
