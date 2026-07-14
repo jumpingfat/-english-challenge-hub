@@ -32,10 +32,11 @@ html, body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   padding: 20px;
   padding-bottom: 100px;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 .hidden { display: none !important; }
 
