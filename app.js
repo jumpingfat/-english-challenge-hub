@@ -10,7 +10,6 @@ const state = {
   skipAdvanceOnce: false,
   currentCategory: null,
   usedIndices: {},
-  timerDuration: 10,
   timerInterval: null,
   timerRemaining: 0
 };
@@ -26,19 +25,21 @@ function showScreen(name) {
 }
 
 /* ---------- QUESTION TIMER ---------- */
+const TIMER_DURATION = 10;
+
 function stopQuestionTimer() {
   clearInterval(state.timerInterval);
   state.timerInterval = null;
   const startBtn = document.getElementById('timer-start-btn');
   const display = document.getElementById('timer-display');
-  if (startBtn) { startBtn.textContent = '⏱ Start Timer'; startBtn.classList.remove('running'); }
+  if (startBtn) { startBtn.textContent = `⏱ Start Timer (${TIMER_DURATION}s)`; startBtn.classList.remove('running'); }
   if (display) { display.classList.add('hidden'); display.classList.remove('urgent'); }
 }
 
 function startQuestionTimer() {
   const display = document.getElementById('timer-display');
   const startBtn = document.getElementById('timer-start-btn');
-  state.timerRemaining = state.timerDuration;
+  state.timerRemaining = TIMER_DURATION;
   display.textContent = state.timerRemaining;
   display.classList.remove('hidden');
   display.classList.toggle('urgent', state.timerRemaining <= 3);
@@ -50,7 +51,7 @@ function startQuestionTimer() {
       display.textContent = '0';
       clearInterval(state.timerInterval);
       state.timerInterval = null;
-      startBtn.textContent = '⏱ Start Timer';
+      startBtn.textContent = `⏱ Start Timer (${TIMER_DURATION}s)`;
       startBtn.classList.remove('running');
       AudioFX.buzzer();
       return;
@@ -60,16 +61,6 @@ function startQuestionTimer() {
     AudioFX.tick();
   }, 1000);
 }
-
-document.getElementById('timer-duration-group').addEventListener('click', (e) => {
-  const btn = e.target.closest('.timer-duration-btn');
-  if (!btn || state.timerInterval) return;
-  document.querySelectorAll('.timer-duration-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  state.timerDuration = parseInt(btn.dataset.secs, 10);
-  const display = document.getElementById('timer-display');
-  if (!display.classList.contains('hidden')) display.textContent = state.timerDuration;
-});
 
 document.getElementById('timer-start-btn').onclick = () => {
   if (state.timerInterval) stopQuestionTimer();

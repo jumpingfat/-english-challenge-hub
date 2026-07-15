@@ -294,29 +294,6 @@ html, body {
   justify-content: center;
   padding: 0 12px;
 }
-.timer-duration-group {
-  display: flex;
-  gap: 6px;
-  background: var(--panel-2);
-  border-radius: 12px;
-  padding: 4px;
-}
-.timer-duration-btn {
-  padding: 8px 14px;
-  font-size: 0.9rem;
-  font-weight: 700;
-  border: none;
-  border-radius: 9px;
-  background: transparent;
-  color: var(--text);
-  opacity: 0.6;
-  cursor: pointer;
-}
-.timer-duration-btn.active {
-  background: #fbbf24;
-  color: #1a1200;
-  opacity: 1;
-}
 .timer-start-btn {
   padding: 10px 20px;
   font-size: 1rem;
